@@ -1,0 +1,37 @@
+CREATE DATABASE Taller;
+
+USE Taller;
+
+CREATE TABLE Clientes (
+    ClienteID INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    Telefono NVARCHAR(15),
+    Direccion NVARCHAR(200),
+    CONSTRAINT CHK_Email_Validation CHECK (Email LIKE '%@%')
+);
+
+CREATE TABLE Vehículos (
+    VehículoID INT PRIMARY KEY IDENTITY(1,1),
+    ClienteID INT FOREIGN KEY REFERENCES Clientes(ClienteID),
+    Marca NVARCHAR(50) NOT NULL,
+    Modelo NVARCHAR(50) NOT NULL,
+    Año INT NOT NULL,
+    Placa NVARCHAR(10) NOT NULL UNIQUE
+);
+
+CREATE TABLE Citas (
+    CitaID INT PRIMARY KEY IDENTITY(1,1),
+    VehículoID INT FOREIGN KEY REFERENCES Vehículos(VehículoID),
+    Fecha DATETIME NOT NULL,
+    Estado NVARCHAR(20) NOT NULL,
+    Comentario NVARCHAR(500),
+    FechaTerminacion DATETIME
+);
+
+CREATE TABLE Administradores (
+    AdminID INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    Contrasena NVARCHAR(100) NOT NULL
+);
